@@ -3,8 +3,7 @@ __author__ = 'elip'
 from setuptools import setup
 
 setup(
-    zip_safe=True,
-    name='cosmo-python-webserver',
+    name='cosmo-plugin-python-webserver',
     version='0.1.0',
     author='elip',
     author_email='elip@gigaspaces.com',
