@@ -42,7 +42,7 @@ def start(__cloudify_id, port=8080, **kwargs):
             response = urllib2.urlopen("http://localhost:{0}".format(port))
             response.read()
             break
-        except:
+        except BaseException:
             time.sleep(1)
     else:
         raise RuntimeError("failed to start python http server")

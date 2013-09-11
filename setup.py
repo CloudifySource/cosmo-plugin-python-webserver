@@ -11,7 +11,6 @@ setup(
     license='LICENSE',
     description='Plugin for starting a simple python webserver on the localhost',
     install_requires=[
-        "celery==3.0.19"
-    ],
-    tests_require=['nose']
+        "celery"
+    ]
 )
