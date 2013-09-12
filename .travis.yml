@@ -8,11 +8,6 @@ install:
     - export COSMO_BRANCH=$TRAVIS_BRANCH
     - python setup.py install
 
-    # command to install test dependencies
-    - pip install -r test-requirements.txt
-
-
-
 script:
 
     # command to run tests
