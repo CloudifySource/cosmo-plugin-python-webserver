@@ -5,11 +5,14 @@ python:
 install:
 
     # command to install dependencies
+    - export COSMO_BRANCH=$TRAVIS_BRANCH
     - python setup.py install
 
     # command to install test dependencies
     - pip install -r test-requirements.txt
 
-# command to run tests
+
 script:
-    - 'python -m unittest python_webserver_installer.tests.test_python_webserver_installer'
+
+    # command to run tests
+    - python -m unittest python_webserver_installer.tests.test_python_webserver_installer
