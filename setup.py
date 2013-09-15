@@ -2,8 +2,6 @@ __author__ = 'elip'
 
 from setuptools import setup
 
-DEFAULT_BRANCH = "master"
-
 COSMO_CELERY = "https://github.com/CloudifySource/cosmo-celery-common/tarball/master"
 COSMO_CELERY_VERSION = "0.1.0"
 
