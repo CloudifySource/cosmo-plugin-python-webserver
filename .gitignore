@@ -1,9 +1,8 @@
-*.iml
-
 *.py[cod]
 
 # C extensions
 *.so
+*.iml
 
 # Packages
 *.egg
