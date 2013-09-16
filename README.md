@@ -1,4 +1,4 @@
 cosmo-plugin-python-webserver
 =============================
 
-Cosmo plugin which installs a python webserver
+cosmo plugin which installs a python webserver on the local machine.
