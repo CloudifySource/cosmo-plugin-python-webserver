@@ -25,8 +25,8 @@ import time
 import urllib2
 import os
 import tempfile
-from celery import task
-from cosmo.events import send_event as send_riemann_event
+from cloudify.decorators import operation
+from cloudify.events import send_event as send_riemann_event
 from cloudify.utils import get_local_ip
 
 
@@ -50,7 +50,7 @@ def verify_http_server(port=8080):
         raise RuntimeError("failed to start python http server")
 
 
-@task
+@operation
 def configure(__cloudify_id, **kwargs):
     os.system('mkdir -p {0}'.format(get_webserver_root()))
     html = """
@@ -70,7 +70,7 @@ def configure(__cloudify_id, **kwargs):
             f.write(html)
 
 
-@task
+@operation
 def start(__cloudify_id, port=8080, **kwargs):
     os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &".format(get_webserver_root(), port))
     verify_http_server(port)
