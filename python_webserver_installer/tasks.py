@@ -26,7 +26,7 @@ import urllib2
 import os
 import tempfile
 from cloudify.decorators import operation
-from cloudify.events import send_event as send_riemann_event
+from cloudify.notifications import send_event as send_riemann_event
 from cloudify.utils import get_local_ip
 
 
