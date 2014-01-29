@@ -26,12 +26,12 @@ import urllib2
 import os
 import tempfile
 from cloudify.decorators import operation
-from cloudify.notifications import send_event as send_riemann_event
+from cloudify.notifications import send_reachable as send_riemann_reachable
 from cloudify.utils import get_local_ip
 
 
 get_ip = get_local_ip
-send_event = send_riemann_event
+send_reachable = send_riemann_reachable
 
 
 def get_webserver_root():
@@ -74,5 +74,5 @@ def configure(__cloudify_id, **kwargs):
 def start(__cloudify_id, port=8080, **kwargs):
     os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &".format(get_webserver_root(), port))
     verify_http_server(port)
-    send_event(__cloudify_id, get_ip(), "webserver status", "state", "running")
+    send_reachable(__cloudify_id, get_ip())
 
