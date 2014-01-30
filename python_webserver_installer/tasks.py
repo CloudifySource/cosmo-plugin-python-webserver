@@ -26,12 +26,12 @@ import urllib2
 import os
 import tempfile
 from cloudify.decorators import operation
-from cloudify.notifications import send_reachable as send_riemann_reachable
+from cloudify.manager import set_node_started as set_started
 from cloudify.utils import get_local_ip
 
 
 get_ip = get_local_ip
-send_reachable = send_riemann_reachable
+set_node_started = set_started
 
 
 def get_webserver_root():
@@ -75,4 +75,4 @@ def start(__cloudify_id, port=8080, **kwargs):
     os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &"
               .format(get_webserver_root(), port))
     verify_http_server(port)
-    send_reachable(__cloudify_id, get_ip())
+    set_node_started(__cloudify_id, get_ip())
