@@ -28,7 +28,7 @@ class WebserverInstallerTestCase(unittest.TestCase):
         def dummy(*args, **kwargs):
             return None
         tasks.get_ip = dummy
-        tasks.send_event = dummy
+        tasks.send_reachable = dummy
 
     def test_http_server(self):
         root_dir = tasks.get_webserver_root()
