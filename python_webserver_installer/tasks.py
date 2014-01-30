@@ -72,7 +72,7 @@ def configure(__cloudify_id, **kwargs):
 
 @operation
 def start(__cloudify_id, port=8080, **kwargs):
-    os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &".format(get_webserver_root(), port))
+    os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &"
+              .format(get_webserver_root(), port))
     verify_http_server(port)
     send_reachable(__cloudify_id, get_ip())
-

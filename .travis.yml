@@ -6,8 +6,10 @@ install:
 
     # command to install dependencies
     - python setup.py install
+    - sudo pip install flake8
 
 script:
 
     # command to run tests
+    - flake8 .
     - python -m unittest python_webserver_installer.tests.test_python_webserver_installer

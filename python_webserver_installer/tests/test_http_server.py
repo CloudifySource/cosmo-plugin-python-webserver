@@ -39,4 +39,3 @@ class WebserverInstallerTestCase(unittest.TestCase):
         self.assertTrue(path.exists(html_file))
         tasks.start('id', port=8000)
         tasks.verify_http_server(port=8000)
-
