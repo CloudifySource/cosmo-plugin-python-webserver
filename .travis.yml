@@ -12,4 +12,4 @@ script:
 
     # command to run tests
     - flake8 .
-    - python -m unittest python_webserver_installer.tests.test_python_webserver_installer
+    - nosetests python_webserver_installer/tests/
