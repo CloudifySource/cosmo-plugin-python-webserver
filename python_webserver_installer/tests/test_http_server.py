@@ -28,7 +28,7 @@ class WebserverInstallerTestCase(unittest.TestCase):
         def dummy(*args, **kwargs):
             return None
         tasks.get_ip = dummy
-        tasks.send_event = dummy
+        tasks.set_node_started = dummy
 
     def test_http_server(self):
         root_dir = tasks.get_webserver_root()
@@ -39,4 +39,3 @@ class WebserverInstallerTestCase(unittest.TestCase):
         self.assertTrue(path.exists(html_file))
         tasks.start('id', port=8000)
         tasks.verify_http_server(port=8000)
-
