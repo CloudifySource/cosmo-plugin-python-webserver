@@ -26,12 +26,7 @@ import urllib2
 import os
 import tempfile
 from cloudify.decorators import operation
-from cloudify.events import send_event as send_riemann_event
-from cloudify.utils import get_local_ip
 
-
-get_ip = get_local_ip
-send_event = send_riemann_event
 
 
 def get_webserver_root():
@@ -51,7 +46,8 @@ def verify_http_server(port=8080):
 
 
 @operation
-def configure(__cloudify_id, **kwargs):
+def configure(ctx, **kwargs):
+    ctx.logger.info('Creating HTTP server root directory at: {0}'.format(get_webserver_root()))
     os.system('mkdir -p {0}'.format(get_webserver_root()))
     html = """
 <html>
@@ -60,19 +56,21 @@ def configure(__cloudify_id, **kwargs):
     </header>
 <body>
     <h1>Hello, World!</h1>
-    <p>node_id = {0}</p>
+    <p>node_name = {0}<br/>node_id = {1}</p>
 </body>
 </html>
-    """.format(__cloudify_id)
+    """.format(ctx.node_name, ctx.node_id)
     html_file = os.path.join(get_webserver_root(), 'index.html')
+    ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
         with open(html_file, 'w') as f:
             f.write(html)
 
 
 @operation
-def start(__cloudify_id, port=8080, **kwargs):
-    os.system("cd {0}; nohup python -m SimpleHTTPServer {1} &".format(get_webserver_root(), port))
+def start(ctx, port=8080, **kwargs):
+    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} &'.format(get_webserver_root(), port)
+    ctx.logger.info('Starting HTTP server using: {0}'.format(command))
+    os.system(command)
     verify_http_server(port)
-    send_event(__cloudify_id, get_ip(), "webserver status", "state", "running")
-
+    ctx.set_started()

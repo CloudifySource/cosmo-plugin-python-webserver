@@ -20,6 +20,7 @@ __author__ = 'elip'
 import shutil
 from os import path
 from python_webserver_installer import tasks
+from cloudify.mocks import MockCloudifyContext
 
 
 class WebserverInstallerTestCase(unittest.TestCase):
@@ -31,12 +32,13 @@ class WebserverInstallerTestCase(unittest.TestCase):
         tasks.send_event = dummy
 
     def test_http_server(self):
+        context = MockCloudifyContext(node_id='id')
         root_dir = tasks.get_webserver_root()
         if path.exists(root_dir):
             shutil.rmtree(root_dir)
-        tasks.configure('id')
+        tasks.configure(context)
         html_file = path.join(root_dir, 'index.html')
         self.assertTrue(path.exists(html_file))
-        tasks.start('id', port=8000)
+        tasks.start(context, port=8000)
         tasks.verify_http_server(port=8000)
 
