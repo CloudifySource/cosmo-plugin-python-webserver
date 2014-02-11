@@ -28,7 +28,6 @@ import tempfile
 from cloudify.decorators import operation
 
 
-
 def get_webserver_root():
     return os.path.join(tempfile.gettempdir(), 'python-simple-http-webserver')
 
