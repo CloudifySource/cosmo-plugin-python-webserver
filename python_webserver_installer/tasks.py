@@ -57,10 +57,15 @@ def configure(ctx, **kwargs):
     </header>
 <body>
     <h1>Hello, World!</h1>
-    <p>node_name = {0}<br/>node_id = {1}</p>
+    <p>
+        blueprint_id = {0}<br/>
+        deployment_id = {1}<br/>
+        node_name = {2}<br/>
+        node_id = {3}
+    </p>
 </body>
 </html>
-    """.format(ctx.node_name, ctx.node_id)
+    """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name, ctx.node_id)
     html_file = os.path.join(get_webserver_root(), 'index.html')
     ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
