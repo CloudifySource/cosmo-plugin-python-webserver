@@ -83,5 +83,5 @@ def start(ctx, port=8080, **kwargs):
     verify_http_server(port)
     ctx.set_started()
     if 'ips' in ctx.capabilities:
-        ips = json.dumps(ctx.capabilities['ips']))
+        ips = json.dumps(ctx.capabilities['ips'])
         ctx.logger.info('HTTP Server IPs: {0}'.format(ips)
