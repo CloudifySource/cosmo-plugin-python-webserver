@@ -81,3 +81,5 @@ def start(ctx, port=8080, **kwargs):
     os.system(command)
     verify_http_server(port)
     ctx.set_started()
+    if 'ips' in ctx.capabilities:
+        ctx.logger.info('HTTP Server IPs: {0}'.format(ctx.capabilities['ips']))
