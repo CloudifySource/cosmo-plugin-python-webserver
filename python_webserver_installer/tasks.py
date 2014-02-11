@@ -46,7 +46,9 @@ def verify_http_server(port=8080):
 
 @operation
 def configure(ctx, **kwargs):
-    ctx.logger.info('Creating HTTP server root directory at: {0}'.format(get_webserver_root()))
+    ctx.logger.info(
+        'Creating HTTP server root directory at: {0}'.format(
+            get_webserver_root()))
     os.system('mkdir -p {0}'.format(get_webserver_root()))
     html = """
 <html>
@@ -68,7 +70,8 @@ def configure(ctx, **kwargs):
 
 @operation
 def start(ctx, port=8080, **kwargs):
-    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} &'.format(get_webserver_root(), port)
+    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} &'.format(
+        get_webserver_root(), port)
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
     verify_http_server(port)
