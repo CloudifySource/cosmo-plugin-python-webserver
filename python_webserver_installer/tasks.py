@@ -25,6 +25,7 @@ import time
 import urllib2
 import os
 import tempfile
+import json
 from cloudify.decorators import operation
 
 
@@ -82,4 +83,5 @@ def start(ctx, port=8080, **kwargs):
     verify_http_server(port)
     ctx.set_started()
     if 'ips' in ctx.capabilities:
-        ctx.logger.info('HTTP Server IPs: {0}'.format(ctx.capabilities['ips']))
+        ips = json.dumps(ctx.capabilities['ips']))
+        ctx.logger.info('HTTP Server IPs: {0}'.format(ips)
