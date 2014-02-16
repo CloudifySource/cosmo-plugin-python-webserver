@@ -29,6 +29,9 @@ import json
 from cloudify.decorators import operation
 
 
+PID_FILE = 'server.pid'
+
+
 def get_webserver_root():
     return os.path.join(tempfile.gettempdir(), 'python-simple-http-webserver')
 
@@ -43,6 +46,15 @@ def verify_http_server(port=8080):
             time.sleep(1)
     else:
         raise RuntimeError("failed to start python http server")
+
+
+def get_server_pid():
+    try:
+        pid_file = os.path.join(get_webserver_root(), PID_FILE)
+        with open(pid_file, 'r') as f:
+            return f.read()
+    except IOError:
+        return None
 
 
 @operation
@@ -76,8 +88,7 @@ def configure(ctx, **kwargs):
 
 @operation
 def start(ctx, port=8080, **kwargs):
-    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} &'.format(
-        get_webserver_root(), port)
+    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} > /dev/null 2>&1 & echo $! > {2}'.format(get_webserver_root(), port, PID_FILE)
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
     verify_http_server(port)
@@ -85,3 +96,15 @@ def start(ctx, port=8080, **kwargs):
     if 'ips' in ctx.capabilities:
         ips = json.dumps(ctx.capabilities['ips'])
         ctx.logger.info('HTTP Server IPs: {0}'.format(ips))
+
+
+@operation
+def stop(ctx, **kwargs):
+    pid = get_server_pid()
+    if pid is not None:
+        ctx.logger.info('Stopping HTTP server [pid={0}]'.format(pid))
+        os.system('kill -9 {0}'.format(pid))
+    else:
+        ctx.logger.info('HTTP server is not running')
+    ctx.set_stopped()
+
