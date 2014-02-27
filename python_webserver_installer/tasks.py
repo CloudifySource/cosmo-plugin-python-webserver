@@ -92,10 +92,9 @@ def start(ctx, port=8080, **kwargs):
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
     verify_http_server(port)
-    ctx.set_started()
-    if 'ips' in ctx.capabilities:
-        ips = json.dumps(ctx.capabilities['ips'])
-        ctx.logger.info('HTTP Server IPs: {0}'.format(ips))
+    if 'networks' in ctx.capabilities:
+        networks = json.dumps(ctx.capabilities['networks'])
+        ctx.logger.info('HTTP Server IPs: {0}'.format(networks))
 
 
 @operation
@@ -106,5 +105,4 @@ def stop(ctx, **kwargs):
         os.system('kill -9 {0}'.format(pid))
     else:
         ctx.logger.info('HTTP server is not running')
-    ctx.set_stopped()
 
