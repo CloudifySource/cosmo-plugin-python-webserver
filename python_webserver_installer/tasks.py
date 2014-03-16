@@ -83,7 +83,9 @@ def configure(ctx, image_path, **kwargs):
     """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name,
                ctx.node_id, image_path)
 
-    ctx.get_resource(image_path, get_webserver_root())
+    if not ctx.get_resource(image_path, get_webserver_root()):
+        raise RuntimeError("failed to retrieve image from file server; "
+                           "attempted path was {0}".format(image_path))
     html_file = os.path.join(get_webserver_root(), 'index.html')
     ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
