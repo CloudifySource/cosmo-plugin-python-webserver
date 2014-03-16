@@ -58,11 +58,12 @@ def get_server_pid():
 
 
 @operation
-def configure(ctx, **kwargs):
+def configure(ctx, image_path, **kwargs):
     ctx.logger.info(
         'Creating HTTP server root directory at: {0}'.format(
             get_webserver_root()))
     os.system('mkdir -p {0}'.format(get_webserver_root()))
+
     html = """
 <html>
     <header>
@@ -76,9 +77,13 @@ def configure(ctx, **kwargs):
         node_name = {2}<br/>
         node_id = {3}
     </p>
+    <img src='{4}'>
 </body>
 </html>
-    """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name, ctx.node_id)
+    """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name,
+               ctx.node_id, image_path)
+
+    ctx.get_resource(image_path, get_webserver_root())
     html_file = os.path.join(get_webserver_root(), 'index.html')
     ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
