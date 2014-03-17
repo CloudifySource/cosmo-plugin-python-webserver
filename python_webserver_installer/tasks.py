@@ -27,7 +27,6 @@ import os
 import tempfile
 import json
 from cloudify.decorators import operation
-import cloudify.utils
 
 
 PID_FILE = 'server.pid'
@@ -60,18 +59,6 @@ def get_server_pid():
 
 @operation
 def configure(ctx, image_path, **kwargs):
-
-    with open('/home/ubuntu/temptemp', 'w', 0) as f:
-        bpid = ctx.blueprint_id
-        f.write('bpid = {0}'.format(bpid))
-        ctx.logger.info('bpid = {0}'.format(bpid))
-        f.write('rsc path = {0}'.format(image_path))
-        ctx.logger.info('rsc path = {0}'.format(image_path))
-        baseurl = cloudify.utils.get_manager_file_server_blueprints_root_url()
-        f.write('base url = {0}'.format(baseurl))
-        ctx.logger.info('base url = {0}'.format(baseurl))
-
-
     ctx.logger.info(
         'Creating HTTP server root directory at: {0}'.format(
             get_webserver_root()))
@@ -96,7 +83,8 @@ def configure(ctx, image_path, **kwargs):
     """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name,
                ctx.node_id, image_path)
 
-    if not ctx.get_resource(image_path, get_webserver_root()):
+    if not ctx.get_resource(image_path, '{0}/{1}'.format(
+            get_webserver_root(), image_path)):
         raise RuntimeError("failed to retrieve image from file server; "
                            "attempted path was {0}".format(image_path))
     html_file = os.path.join(get_webserver_root(), 'index.html')
