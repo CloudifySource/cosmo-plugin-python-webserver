@@ -27,6 +27,7 @@ import os
 import tempfile
 import json
 from cloudify.decorators import operation
+import cloudify.utils
 
 
 PID_FILE = 'server.pid'
@@ -59,6 +60,18 @@ def get_server_pid():
 
 @operation
 def configure(ctx, image_path, **kwargs):
+
+    with open('/home/ubuntu/temptemp') as f:
+        bpid = ctx.blueprint_id
+        f.write('bpid = {0}'.format(bpid))
+        ctx.logger.info('bpid = {0}'.format(bpid))
+        f.write('rsc path = {0}'.format(image_path))
+        ctx.logger.info('rsc path = {0}'.format(image_path))
+        baseurl = utils.get_manager_file_server_blueprints_root_url()
+        f.write('base url = {0}'.format(baseurl))
+        ctx.logger.info('base url = {0}'.format(baseurl))
+
+
     ctx.logger.info(
         'Creating HTTP server root directory at: {0}'.format(
             get_webserver_root()))
