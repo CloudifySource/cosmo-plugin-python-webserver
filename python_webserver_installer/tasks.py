@@ -84,7 +84,7 @@ def configure(ctx, image_path, **kwargs):
                ctx.node_id, image_path)
 
     image_fs_path = os.path.join(get_webserver_root(), image_path)
-    os.mkdir(dirname(image_fs_path))
+    os.mkdir(os.path.dirname(image_fs_path))
     if not ctx.get_resource(image_path, image_fs_path):
         raise RuntimeError("failed to retrieve image from file server; "
                            "attempted path was {0}".format(image_path))
