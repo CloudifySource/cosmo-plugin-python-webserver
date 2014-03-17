@@ -67,7 +67,7 @@ def configure(ctx, image_path, **kwargs):
         ctx.logger.info('bpid = {0}'.format(bpid))
         f.write('rsc path = {0}'.format(image_path))
         ctx.logger.info('rsc path = {0}'.format(image_path))
-        baseurl = utils.get_manager_file_server_blueprints_root_url()
+        baseurl = cloudify.utils.get_manager_file_server_blueprints_root_url()
         f.write('base url = {0}'.format(baseurl))
         ctx.logger.info('base url = {0}'.format(baseurl))
 
