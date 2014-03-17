@@ -85,9 +85,7 @@ def configure(ctx, image_path, **kwargs):
 
     image_fs_path = os.path.join(get_webserver_root(), image_path)
     os.mkdir(os.path.dirname(image_fs_path))
-    if not ctx.get_resource(image_path, image_fs_path):
-        raise RuntimeError("failed to retrieve image from file server; "
-                           "attempted path was {0}".format(image_path))
+    ctx.get_resource(image_path, image_fs_path)
     html_file = os.path.join(get_webserver_root(), 'index.html')
     ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
