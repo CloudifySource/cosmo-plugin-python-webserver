@@ -61,7 +61,7 @@ def get_server_pid():
 @operation
 def configure(ctx, image_path, **kwargs):
 
-    with open('/home/ubuntu/temptemp') as f:
+    with open('/home/ubuntu/temptemp', 'w', 0) as f:
         bpid = ctx.blueprint_id
         f.write('bpid = {0}'.format(bpid))
         ctx.logger.info('bpid = {0}'.format(bpid))
