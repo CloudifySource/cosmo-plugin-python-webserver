@@ -97,7 +97,8 @@ def configure(ctx, image_path, **kwargs):
 
 @operation
 def start(ctx, port=8080, **kwargs):
-    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} > /dev/null 2>&1 & echo $! > {2}'.format(get_webserver_root(), port, PID_FILE)
+    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} > /dev/null 2>&1' \
+              ' & echo $! > {2}'.format(get_webserver_root(), port, PID_FILE)
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
     verify_http_server(port)
@@ -114,4 +115,3 @@ def stop(ctx, **kwargs):
         os.system('kill -9 {0}'.format(pid))
     else:
         ctx.logger.info('HTTP server is not running')
-
