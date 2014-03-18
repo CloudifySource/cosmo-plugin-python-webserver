@@ -63,6 +63,8 @@ def configure(ctx, **kwargs):
         'Creating HTTP server root directory at: {0}'.format(
             get_webserver_root()))
     os.system('mkdir -p {0}'.format(get_webserver_root()))
+    image_path = ctx.properties['image_path']
+
     html = """
 <html>
     <header>
@@ -76,9 +78,15 @@ def configure(ctx, **kwargs):
         node_name = {2}<br/>
         node_id = {3}
     </p>
+    <img src='{4}'>
 </body>
 </html>
-    """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name, ctx.node_id)
+    """.format(ctx.blueprint_id, ctx.deployment_id, ctx.node_name,
+               ctx.node_id, image_path)
+
+    image_fs_path = os.path.join(get_webserver_root(), image_path)
+    os.mkdir(os.path.dirname(image_fs_path))
+    ctx.get_resource(image_path, image_fs_path)
     html_file = os.path.join(get_webserver_root(), 'index.html')
     ctx.logger.info('Creating index.html file at: {0}'.format(html_file))
     if not os.path.exists(html_file):
@@ -88,7 +96,8 @@ def configure(ctx, **kwargs):
 
 @operation
 def start(ctx, port=8080, **kwargs):
-    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} > /dev/null 2>&1 & echo $! > {2}'.format(get_webserver_root(), port, PID_FILE)
+    command = 'cd {0}; nohup python -m SimpleHTTPServer {1} > /dev/null 2>&1' \
+              ' & echo $! > {2}'.format(get_webserver_root(), port, PID_FILE)
     ctx.logger.info('Starting HTTP server using: {0}'.format(command))
     os.system(command)
     verify_http_server(port)
@@ -105,4 +114,3 @@ def stop(ctx, **kwargs):
         os.system('kill -9 {0}'.format(pid))
     else:
         ctx.logger.info('HTTP server is not running')
-

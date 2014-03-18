@@ -36,7 +36,7 @@ class WebserverInstallerTestCase(unittest.TestCase):
         root_dir = tasks.get_webserver_root()
         if path.exists(root_dir):
             shutil.rmtree(root_dir)
-        tasks.configure(context)
+        tasks.configure(context, 'images/mock-image.png')
         html_file = path.join(root_dir, 'index.html')
         self.assertTrue(path.exists(html_file))
         tasks.start(context, port=8000)
