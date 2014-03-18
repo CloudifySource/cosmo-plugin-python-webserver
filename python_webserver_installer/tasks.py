@@ -58,11 +58,12 @@ def get_server_pid():
 
 
 @operation
-def configure(ctx, image_path, **kwargs):
+def configure(ctx, **kwargs):
     ctx.logger.info(
         'Creating HTTP server root directory at: {0}'.format(
             get_webserver_root()))
     os.system('mkdir -p {0}'.format(get_webserver_root()))
+    image_path = ctx.properties['image_path']
 
     html = """
 <html>
