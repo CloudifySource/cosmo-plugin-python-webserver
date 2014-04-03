@@ -13,11 +13,10 @@
 #    * See the License for the specific language governing permissions and
 #    * limitations under the License.
 
-import unittest
-
 __author__ = 'elip'
 
 import shutil
+import unittest
 from os import path
 from python_webserver_installer import tasks
 from cloudify.mocks import MockCloudifyContext
